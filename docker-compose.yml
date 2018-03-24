@@ -1,0 +1,30 @@
+version: '3'
+services:
+  zupme-baas:
+    image: node:8
+    working_dir: /home/node
+    volumes:
+      - $PWD:/home/node
+    ports:
+      - "8080:8080"
+    networks: 
+      zupme-baas-network:
+        ipv4_address: 172.17.0.2
+    depends_on:
+      - couchbase
+  couchbase:
+    image: couchbase:4.6.4
+    volumes:
+      - ./couchbase/data:/opt/couchbase/var
+    ports:
+      - "8091:8091"
+    networks: 
+      zupme-baas-network:
+        ipv4_address: 172.17.0.3
+
+networks:
+  zupme-baas-network:
+    driver: bridge
+    ipam:
+        config:
+          - subnet: 172.17.0.0/16
