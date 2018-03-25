@@ -1,3 +1,5 @@
+'use strict';
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../server');
@@ -17,16 +19,16 @@ describe('Model Definitions', () => {
         repository = new ModelDefinitionRepository(connection);
     });
 
-    after(() => {
-        connection.disconnect();
-    });
-
     afterEach((done) => {
         repository.delete('Car').then(() => {
             done();
         }).catch(() => {
             done();
         });
+    });
+
+    after(() => {
+        connection.disconnect();
     });
     
     describe('GET /model-definitions/schema', () => {

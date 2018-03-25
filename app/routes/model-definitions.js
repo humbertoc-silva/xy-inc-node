@@ -34,7 +34,7 @@ router.post('/model-definitions', modelDefinitionValidator, function(req, res, n
     }).finally(() => {
         connection.disconnect();
     });
-})
+});
 
 router.get('/model-definitions', function(req, res, next) {
     let connection = getConnection();
