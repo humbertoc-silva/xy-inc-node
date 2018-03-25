@@ -1,0 +1,5 @@
+# Use the web console to run this http://localhost:8091/ui/index.html#/query/workbench
+# User: Administrator
+# Password: password
+
+CREATE PRIMARY INDEX ON model_definition USING GSI;
