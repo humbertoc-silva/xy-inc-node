@@ -2,4 +2,5 @@
 # User: Administrator
 # Password: password
 
-CREATE PRIMARY INDEX ON model_definition USING GSI;
+CREATE PRIMARY INDEX ON model USING GSI;
+CREATE PRIMARY INDEX ON model_data USING GSI;

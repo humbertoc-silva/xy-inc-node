@@ -4,47 +4,45 @@ const N1qlQuery = require('couchbase').N1qlQuery;
 
 const KEY_ALREADY_EXISTS = 12;
 const KEY_NOT_FOUND = 13;
-const MODEL_DEFINITION_BUCKET = 'model_definition';
 
-class ModelDefinitionRepository {
+class ModelDataRepository {
 
     constructor(connection) {
         this._connection = connection;
     }
 
-    create(modelDefinition) {
-        let modelName = modelDefinition.modelName;
-        return this._connection.insertAsync(modelName, modelDefinition).then(() => {
-            return this.findById(modelName);
+    create(id, data) {
+        return this._connection.insertAsync(id, data).then(() => {
+            return this.findById(id);
         }).catch((err) => {
             this._handleKeyAlreadyExists(err);
             throw err;
         });
     }
 
-    findAll() {
-        return this._connection.queryAsync(N1qlQuery.fromString('SELECT * FROM model_definition'));
+    findAll(model) {
+        return this._connection.queryAsync(N1qlQuery.fromString(`SELECT * FROM model_data WHERE META(model_data).id LIKE '${model}/%'`));
     }
 
-    findById(modelDefinitionId) {
-        return this._connection.getAsync(modelDefinitionId)
+    findById(id) {
+        return this._connection.getAsync(id)
         .catch((err) => {
             this._handleKeyNotFoundError(err);
             throw err;
         });
     }
 
-    update(modelDefinitionId, modelDefinition) {
-        return this._connection.replaceAsync(modelDefinitionId, modelDefinition).then(() => {
-            return this.findById(modelDefinitionId);
+    update(id, data) {
+        return this._connection.replaceAsync(id, data).then(() => {
+            return this.findById(id);
         }).catch((err) => {
             this._handleKeyNotFoundError(err);
             throw err;
         });;
     }
 
-    delete(modelDefinitionId) {
-        return this._connection.removeAsync(modelDefinitionId)
+    delete(id) {
+        return this._connection.removeAsync(id)
         .catch((err) => {
             this._handleKeyNotFoundError(err);
             throw err;
@@ -68,4 +66,4 @@ class ModelDefinitionRepository {
     }
 }
 
-module.exports = ModelDefinitionRepository;
+module.exports = ModelDataRepository;

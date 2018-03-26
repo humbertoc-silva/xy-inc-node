@@ -1,23 +1,16 @@
 'use strict';
 
 const express = require('express');
-const modelDefinitionRoutes = require('../app/routes/model-definitions');
-//const consign = require('consign');
+const modelRoutes = require('../app/routes/models');
+const modelDataRoutes = require('../app/routes/model-data');
 global.Promise = require('bluebird');
 
 module.exports = function() {
     var app = express();
 
     app.use(express.json());
-    app.use(modelDefinitionRoutes);
-
-    /*consign({ cwd: 'app' })
-        .include('database')
-        .include('schemas')
-        .include('validators')    
-        .include('routes')
-        .into(app);*/
-
+    app.use(modelRoutes);
+    app.use(modelDataRoutes);
     app.use(notFoundErrorHandler);
     app.use(httpErrorHandler);
     app.use(internalServerErrorHandler)
