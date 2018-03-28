@@ -26,3 +26,5 @@ curl  -u Administrator:password -v -X POST -d flushEnabled=1 -d threadsNumber=3 
 # Setup Index Bucket
 curl -u Administrator:password -X POST  http://172.17.0.3:8091/settings/indexes \
   -d 'indexerThreads=0' -d 'logLevel=info' -d 'maxRollbackPoints=5' -d 'memorySnapshotInterval=200' -d 'stableSnapshotInterval=5000' -d 'storageMode=forestdb' 
+curl -u Administrator:password -X POST  http://172.17.0.3:8093/query/service?statement=create%20primary%20index%20on%20model
+curl -u Administrator:password -X POST  http://172.17.0.3:8093/query/service?statement=create%20primary%20index%20on%20model_data
